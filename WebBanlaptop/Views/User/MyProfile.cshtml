@@ -1,0 +1,100 @@
+﻿@model WebBanlaptop.Models.KHACHHANG
+@{
+    ViewBag.Title = "MyProfile";
+    Layout = "~/Views/Layout/_HomeLayout.cshtml";
+    var item = Model;
+}
+<div class="banner-bg-inner">
+</div>
+<div>
+    <div class="myProfile" @*style="width:100%;display:flex; justify-content:center"*@>
+        <!-- strURL :lưu xong reload lại trang-->
+
+        @using (Html.BeginForm(new { strURL = Request.Url.ToString() }))
+        {
+            Html.AntiForgeryToken();
+            <form>
+                <div class="profile">
+                    <h3>HỒ SƠ CỦA TÔI</h3>
+                    <div class="form-group">
+                        <label for="name">Họ tên</label>
+                        <input type="text" class="form-control" id="name" name="NAME" aria-describedby="emailHelp" placeholder="Họ tên" value="@item.TENKH">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" class="form-control" id="email" name="EMAIL" placeholder="Email" value="@item.EMAIL">
+                    </div>
+                    <div class="form-group">
+                        <label for="CCCD">CCCD</label>
+                        <input type="text" class="form-control" id="CCCD" name="CCCD" placeholder="CCCD" value="@item.CCCD">
+                    </div>
+                    <div class="form-group">
+                        <label for="address">Địa chỉ</label>
+                        <input type="text" class="form-control" id="diachi" name="DIACHI" placeholder="Địa chỉ" value="@item.DIACHI">
+                    </div>
+                    <div class="form-group">
+                        <label for="phoneNumber">Điện thoại</label>
+                        <input type="tel" class="form-control" id="sdt" name="SDT" placeholder="Điện thoại" value="@item.SDT">
+                    </div>
+                    @if (item.NGAYSINH == null)
+                    {
+                        <div class="form-group">
+                            <div class="birthday">
+                                <label for="birthday" id="birthday-text">Ngày sinh</label>
+                                <input type="number" class="form-control removeArrows" id="birthday-col" name="day" placeholder="Ngày" min="1" max="31">
+                                <select class="form-control" id="birthday-col" name="month">
+                                    @for (int i = 1; i < 13; i++)
+                                    {
+                                        <option value="@i">Tháng @i</option>
+                                    }
+                                </select>
+                                <input type="number" class="form-control removeArrows" id="birthday-col" name="year" placeholder="Năm" min="1900" max="@DateTime.Now.Year">
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="form-group">
+                            <div class="birthday">
+                                <label for="birthday" id="birthday-text">Ngày sinh</label>
+                                <input type="number" class="form-control removeArrows" id="birthday-col" name="day" placeholder="Ngày" value="@item.Day" min="1" max="31">
+                                <select class="form-control" id="birthday-col" name="month">
+                                    @for (int i = 1; i < 13; i++)
+                                    {
+                                        if (i == item.Month)
+                                        {
+                                            <option value="@i" selected>Tháng @i</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@i">Tháng @i</option>
+                                        }
+                                    }
+                                </select>
+                                <input type="number" class="form-control removeArrows" id="birthday-col" name="year" placeholder="Năm" value="@item.Year" min="1900" max="@DateTime.Now.Year">
+                            </div>
+                        </div>
+                    }
+
+                    <button type="submit" class="btn btn-primary" id="save-btn"><i class="fa fa-save"></i>Lưu</button>
+                    <h3 id="Error">@ViewData["Error"]</h3>
+                    <h3 id="Success">@ViewData["Success"]</h3>
+                </div>
+            </form>
+        }
+        <script>
+            addEventListener("load", function () {
+                setTimeout(hideURLbar, 0);
+            }, false);
+            function hideURLbar() {
+                window.scrollTo({ top: 380, behavior: 'smooth' });
+            }
+        </script>
+    </div>
+</div>
+<style type="text/css">
+    .form-control{
+        width: 300px;
+        border-radius: 30px;
+    }
+</style>
